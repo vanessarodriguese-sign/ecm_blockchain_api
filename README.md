@@ -1,8 +1,6 @@
-# EcmBlockchainApi
+# ECM Blockchain API
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/ecm_blockchain_api`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+Client library to connect to and transact with your [ECM Blockchain network](https://www.ecmsecure.com) and Certificate Authorities.
 
 ## Installation
 
@@ -22,7 +20,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Create an initializer file `ecm_api.rb`
+
+```ruby
+::ECMClient = EcmBlockchain::Client.new("ECM_ACCESS_TOKEN")
+```
 
 ## Development
 
