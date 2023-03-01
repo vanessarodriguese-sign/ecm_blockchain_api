@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    ecm_blockchain_api (0.1.0)
+    ecm_blockchain_api (1.0.0)
       httparty (~> 0.17.3)
 
 GEM

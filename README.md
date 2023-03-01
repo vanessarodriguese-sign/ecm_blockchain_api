@@ -19,11 +19,38 @@ Or install it yourself as:
     $ gem install ecm_blockchain_api
 
 ## Usage
-
-Create an initializer file `ecm_api.rb`
+Configure the library by initializing it with the api key.
 
 ```ruby
-::ECMClient = EcmBlockchain::Client.new("ECM_ACCESS_TOKEN")
+ECMBlockchain.access_token = 'abc'
+
+Or create a Rails initializer file `ecm_api.rb`
+
+```ruby
+# file: app/initializers/ecm_api.rb
+
+require 'ecm_blockchain_api'
+
+EcmBlockchain.access_token = ENV['ECM_ACCESS_TOKEN']
+```
+
+## Interact with your CA
+
+```ruby
+# Register and enroll member
+
+ECMClient::Member.create(
+  uuid: "user@org1.example.com",
+  secret: "s3cr3t!",
+  customAttributes: [
+    {
+      name: "verified",
+      value: "true"
+    }
+  ]
+)
+```ruby
+
 ```
 
 ## Development

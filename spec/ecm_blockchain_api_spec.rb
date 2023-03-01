@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-RSpec.describe EcmBlockchainApi do
+RSpec.describe EcmBlockchain do
   it "has a version number" do
-    expect(EcmBlockchainApi::VERSION).not_to be nil
+    expect(EcmBlockchain::VERSION).not_to be nil
   end
 
   it "does something useful" do
