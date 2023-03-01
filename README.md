@@ -34,12 +34,12 @@ require 'ecm_blockchain_api'
 EcmBlockchain.access_token = ENV['ECM_ACCESS_TOKEN']
 ```
 
-## Interact with your CA
+## Interact with your Certificate Authority
 
 ```ruby
 # Register and enroll member
 
-ECMClient::Member.create(
+EcmBlockchain::Member.create(
   uuid: "user@org1.example.com",
   secret: "s3cr3t!",
   customAttributes: [
@@ -49,8 +49,6 @@ ECMClient::Member.create(
     }
   ]
 )
-```ruby
-
 ```
 
 ## Development
