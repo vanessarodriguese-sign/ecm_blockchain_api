@@ -39,7 +39,6 @@ ECMBlockchain.access_token = ENV['ECM_ACCESS_TOKEN']
 
 ```ruby
 # Register and enroll member
-
 ECMBlockchain::Member.create(
   uuid: "user@org1.example.com",
   secret: "s3cr3t!",
@@ -50,6 +49,17 @@ ECMBlockchain::Member.create(
     }
   ]
 )
+
+# Retrieve a member by UUID
+member = ECMBlockchain::Member.retrieve("user@org1.example.com")
+member.custom_attributes
+
+# Update a member
+custom_attributes = [{ name: "verified", value: "false" }]
+ECMBlockchain::Member.update(custom_attributes)
+
+# Delete a member
+ECMBlockchain::Member.delete("user@org1.example.com")
 ```
 
 ## Development
