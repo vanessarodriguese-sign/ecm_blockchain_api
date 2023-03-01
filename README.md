@@ -1,6 +1,6 @@
 # ECM Blockchain API
 
-Client library to connect to and transact with your [ECM Blockchain network](https://www.ecmsecure.com) and Certificate Authorities.
+Client library to connect and transact with your [ECM Blockchain network](https://www.ecmsecure.com) and Certificate Authorities.
 
 ## Installation
 
@@ -14,15 +14,16 @@ And then execute:
 
     $ bundle install
 
-Or install it yourself as:
+Or install through a CLI with:
 
     $ gem install ecm_blockchain_api
 
 ## Usage
-Configure the library by initializing it with the api key.
+Configure the library by initializing it with your access token.
 
 ```ruby
 ECMBlockchain.access_token = 'abc'
+```
 
 Or create a Rails initializer file `ecm_api.rb`
 
@@ -31,7 +32,7 @@ Or create a Rails initializer file `ecm_api.rb`
 
 require 'ecm_blockchain_api'
 
-EcmBlockchain.access_token = ENV['ECM_ACCESS_TOKEN']
+ECMBlockchain.access_token = ENV['ECM_ACCESS_TOKEN']
 ```
 
 ## Interact with your Certificate Authority
@@ -39,7 +40,7 @@ EcmBlockchain.access_token = ENV['ECM_ACCESS_TOKEN']
 ```ruby
 # Register and enroll member
 
-EcmBlockchain::Member.create(
+ECMBlockchain::Member.create(
   uuid: "user@org1.example.com",
   secret: "s3cr3t!",
   customAttributes: [
