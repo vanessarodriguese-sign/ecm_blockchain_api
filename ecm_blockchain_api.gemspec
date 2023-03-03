@@ -4,7 +4,7 @@ require_relative "lib/ecm_blockchain_api/version"
 
 Gem::Specification.new do |spec|
   spec.name          = "ecm_blockchain_api"
-  spec.version       = EcmBlockchainApi::VERSION
+  spec.version       = ECMBlockchain::VERSION
   spec.authors       = ["Wardy"]
   spec.email         = ["info@ecmsecure.com"]
 
@@ -28,6 +28,9 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   spec.add_dependency "httparty", "~> 0.17.3"
+
+  spec.add_development_dependency "pry"
+  spec.add_development_dependency "webmock"
 
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html

@@ -35,6 +35,11 @@ require 'ecm_blockchain_api'
 ECMBlockchain.access_token = ENV['ECM_ACCESS_TOKEN']
 ```
 
+Change the default production base_url
+```ruby
+ECMBlockchain.base_url = "https://sandbox.ecmsecure.com/v1"
+```
+
 ## Interact with your Certificate Authority
 
 ```ruby
