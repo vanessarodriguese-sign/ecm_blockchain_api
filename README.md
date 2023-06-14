@@ -28,7 +28,7 @@ ECMBlockchain.access_token = 'abc'
 Or create a Rails initializer file `ecm_api.rb`
 
 ```ruby
-# file: app/initializers/ecm_api.rb
+# file: config/initializers/ecm_api.rb
 
 require 'ecm_blockchain_api'
 
@@ -43,8 +43,8 @@ ECMBlockchain.base_url = "https://sandbox.ecmsecure.com/v1"
 ## Interact with your Certificate Authority
 
 ```ruby
-# Register and enroll member
-ECMBlockchain::Member.create(
+# Register and enroll member on the Certificate Authority
+@member = ECMBlockchain::CA.create(
   uuid: "user@org1.example.com",
   secret: "s3cr3t!",
   customAttributes: [
@@ -56,15 +56,55 @@ ECMBlockchain::Member.create(
 )
 
 # Retrieve a member by UUID
-member = ECMBlockchain::Member.retrieve("user@org1.example.com")
+member = ECMBlockchain::CA.retrieve("user@org1.example.com:s3cr3t!")
 member.custom_attributes
 
 # Update a member
 custom_attributes = [{ name: "verified", value: "false" }]
-ECMBlockchain::Member.update(custom_attributes)
+ECMBlockchain::CA.update(custom_attributes)
 
 # Delete a member
-ECMBlockchain::Member.delete("user@org1.example.com")
+ECMBlockchain::CA.delete("user@org1.example.com")
+```
+
+```ruby
+# Create an Asset on the blockchain
+@member = ECMBlockchain::Asset.create(
+  uuid: "823737e4-bdc4-401a-b309-ef4c4d4f4733",
+  groupId: "contract-bdc4-401a",
+  title: "signable contract",
+  summary: "updated asset",
+  file: {
+    title: "secure MP4",
+    base64: "data:@file/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9D..."
+  },
+  content: {
+    unit_type: 'PU',
+    unit_id: 'TY23737e4-bdc4-401a-b309-ef4c4d4f4733',
+    date_purchased: '10th Jan 2025 09:02:41'
+  },
+  access: [
+    {
+      uuid: "user@org1.example.com",
+      permissions: [
+        {
+          action: "read",
+          name: "verified",
+          value: "true"
+        }
+      ]
+    }
+  ]
+)
+```
+
+```ruby
+# Success and errors
+
+@member.success?       => true
+@member.error.message  => 'Member not found'
+@member.error.code     => 404
+ 
 ```
 
 ## Development

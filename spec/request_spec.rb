@@ -1,4 +1,6 @@
 RSpec.describe ECMBlockchain::Request do
+  before { stub_request(:get, ECMBlockchain.base_url + ECMBlockchain::Routes::MEMBERS_URL) }
+
   let(:request_class) do
     class Test
       extend ECMBlockchain::Request
@@ -30,7 +32,71 @@ RSpec.describe ECMBlockchain::Request do
   describe '#api_client' do
     it 'should call the verb' do
       expect(request_class).to receive(:get)
-      request_class.api_client(:get, ECMBlockchain::Routes::MEMBERS_URL)
+      request_class.api_client(:get, ECMBlockchain::Routes::MEMBERS_URL, nil)
+    end
+
+    it 'should call the endpoint with the correct data' do
+      expect(request_class).to receive(:post)
+        .with(
+          ECMBlockchain.base_url + ECMBlockchain::Routes::MEMBERS_URL,
+          body: { member: "test" }.to_json
+        )
+      request_class.api_client(:post, ECMBlockchain::Routes::MEMBERS_URL, { member: "test" })
+    end
+
+    it 'should call get endpoint with no data' do
+      expect(request_class).to receive(:get)
+        .with(
+          ECMBlockchain.base_url + ECMBlockchain::Routes::MEMBERS_URL
+        )
+      request_class.api_client(:get, ECMBlockchain::Routes::MEMBERS_URL, nil)
+    end
+  end
+
+  describe '#return_any_errors' do
+    let(:response) do
+      OpenStruct.new(
+        body: { error: { 
+          code: 422, 
+          type: "UnprocessibleEntity",
+          details: "error message abc"
+          }
+        }.to_json,
+        code: 422,
+      )
+    end
+
+    it 'should raise an error if no response' do
+      expect{ request_class.return_any_errors("") }
+        .to raise_error(ECMBlockchain::BadResponseError, "The response returned no data")
+    end
+
+    it 'should not raise an error' do
+      response.body = { member: "one", code: 200 }
+      expect{ request_class.return_any_errors(response) }
+        .to_not raise_error
+    end
+
+    it 'should raise an error if response contains errors' do
+      expect{ request_class.return_any_errors(response) }
+        .to raise_error
+    end
+
+    it 'should raise an UnprocessibleEntityError' do
+      expect{ request_class.return_any_errors(response) }
+        .to raise_error(ECMBlockchain::UnprocessibleEntityError)
+    end
+
+    it 'should contain the error status code' do
+      request_class.return_any_errors(response)
+    rescue ECMBlockchain::UnprocessibleEntityError => e
+      expect(e.code).to eq(422)
+    end
+
+    it 'should contain the error status code' do
+      request_class.return_any_errors(response)
+    rescue ECMBlockchain::UnprocessibleEntityError => e
+      expect(e.message).to eq('error message abc')
     end
   end
 end
