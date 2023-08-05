@@ -8,33 +8,23 @@ module ECMBlockchain
     
     HTTP_VERBS = %i(post get delete patch)
 
+    private
+
     def request(method, url, data=nil)
       ECMBlockchain.has_api_key?
       check_http_verb(method)
-      api_client(method, url, data)
+      response = api_client_call(method, url, data)
+      raise ECMBlockchain::Error.from_response(response) unless response.success?
+      JSON.parse(response.body).deep_symbolize_keys if response.body
     end
 
-    def api_client(verb, url, data)
+    def api_client_call(verb, url, data)
       args = [ verb, ECMBlockchain.base_url + url ]
       headers = {}
       headers[:body] = data.to_json if data
       headers.merge! request_headers
       args.push(headers)
       self.send *args
-    end
-
-    def return_any_errors(response)
-      raise BadResponseError, "The response returned no data" if response.to_s.empty?
-      return unless response.body && response.body.include?("statusCode") && response.body.include?("message")
-      parse_error(response.body)
-    end
-
-    private
-
-    def parse_error(response)
-      err = JSON.parse(response)
-      error = Object.const_get("ECMBlockchain::#{err["name"]}")
-      return error.new err["message"], err["statusCode"]
     end
 
     def check_http_verb(verb)

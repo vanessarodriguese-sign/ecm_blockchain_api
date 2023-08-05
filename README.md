@@ -61,7 +61,7 @@ member.custom_attributes
 
 # Update a member
 custom_attributes = [{ name: "verified", value: "false" }]
-ECMBlockchain::CA.update(custom_attributes)
+ECMBlockchain::CA.update(identity, custom_attributes)
 
 # Delete a member
 ECMBlockchain::CA.delete("user@org1.example.com")
@@ -70,31 +70,34 @@ ECMBlockchain::CA.delete("user@org1.example.com")
 ```ruby
 # Create an Asset on the blockchain
 @member = ECMBlockchain::Asset.create(
-  uuid: "823737e4-bdc4-401a-b309-ef4c4d4f4733",
-  groupId: "contract-bdc4-401a",
-  title: "signable contract",
-  summary: "updated asset",
-  file: {
-    title: "secure MP4",
-    base64: "data:@file/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9D..."
-  },
-  content: {
-    unit_type: 'PU',
-    unit_id: 'TY23737e4-bdc4-401a-b309-ef4c4d4f4733',
-    date_purchased: '10th Jan 2025 09:02:41'
-  },
-  access: [
-    {
-      uuid: "user@org1.example.com",
-      permissions: [
-        {
-          action: "read",
-          name: "verified",
-          value: "true"
-        }
-      ]
-    }
-  ]
+  "creator_identity:secret',
+  {
+    uuid: "823737e4-bdc4-401a-b309-ef4c4d4f4733",
+    groupId: "contract-bdc4-401a",
+    title: "signable contract",
+    summary: "updated asset",
+    file: {
+      title: "secure MP4",
+      base64: "data:@file/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9D..."
+    },
+    content: {
+      unit_type: 'PU',
+      unit_id: 'TY23737e4-bdc4-401a-b309-ef4c4d4f4733',
+      date_purchased: '10th Jan 2025 09:02:41'
+    },
+    access: [
+      {
+        uuid: "user@org1.example.com",
+        permissions: [
+          {
+            action: "read",
+            name: "verified",
+            value: "true"
+          }
+        ]
+      }
+    ]
+  }
 )
 ```
 

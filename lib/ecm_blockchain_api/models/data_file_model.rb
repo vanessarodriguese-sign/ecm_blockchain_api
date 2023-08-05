@@ -8,6 +8,7 @@ module ECMBlockchain
     validates :title, :base64, presence: true
 
     def initialize(data={})
+      data ||= {}
       @title = data[:title]
       @base64 = data[:base64]
       @fileHash = data[:fileHash]

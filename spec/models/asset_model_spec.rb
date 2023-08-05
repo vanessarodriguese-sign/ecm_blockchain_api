@@ -13,13 +13,13 @@ RSpec.describe ECMBlockchain::Asset, type: :model do
   it { is_expected.to respond_to(:file) }
   it { is_expected.to respond_to(:content) }
   it { is_expected.to respond_to(:created_at) }
+  it { is_expected.to respond_to(:access) }
+  it { is_expected.to respond_to(:lastInteraction) }
 
   describe '#validations' do
     it { is_expected.to validate_presence_of :uuid } 
-    it { is_expected.to validate_presence_of :txId } 
     it { is_expected.to validate_presence_of :title } 
     it { is_expected.to validate_presence_of :summary } 
-    it { is_expected.to validate_presence_of :createdBy } 
 
     it 'should error if a file object or content object hasnt been added' do
       subject.file = ECMBlockchain::DataFile.new

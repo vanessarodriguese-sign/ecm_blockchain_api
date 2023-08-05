@@ -4,7 +4,8 @@ module ECMBlockchain
     attr_accessor :data
 
     def initialize(data={})
-      @data = data.deep_symbolize_keys!
+      data ||= {}
+      @data = data.deep_symbolize_keys
       create_data_attr_accessors
     end
 

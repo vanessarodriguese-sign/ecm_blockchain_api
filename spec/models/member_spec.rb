@@ -15,7 +15,7 @@ RSpec.describe ECMBlockchain::Member, type: :model do
 
   it { is_expected.to respond_to(:uuid) }
   it { is_expected.to respond_to(:organisation) }
-  it { is_expected.to respond_to(:customAttributes) }
+  it { is_expected.to respond_to(:custom_attributes) }
 
   describe '#validations' do
     it { is_expected.to validate_presence_of :uuid } 

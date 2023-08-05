@@ -17,13 +17,5 @@ module ECMBlockchain
       end
       # raise error unless valid
     end
-
-    def success?
-      true
-    end
-
-    def error
-      nil
-    end
   end
 end

@@ -9,12 +9,12 @@ RSpec.describe ECMBlockchain::CA do
   let(:members_url) { '/members' }
   let(:member_response) do
     {
-      "uuid": "user@org1.example.com",
-      "organisation": "Org1",
-      "customAttributes": [
+      uuid: "user@org1.example.com",
+      organisation: "Org1",
+      customAttributes: [
         {
-          "name": "verified",
-          "value": "true"
+          name: "verified",
+          value: "true"
         }
       ]
     }
@@ -33,11 +33,14 @@ RSpec.describe ECMBlockchain::CA do
   end
 
   describe '#create' do
+    before do
+      stub_request(:post, ECMBlockchain.base_url + members_url)
+    end
+
     context 'member created' do
       context '200 - with data' do
         before do
-          stub_request(:post, ECMBlockchain.base_url + members_url)
-            .to_return(status: 200, body: member_response.to_json)
+          allow(ECMBlockchain::CA).to receive(:request).and_return(member_response)
         end
 
         it 'should return a member' do
@@ -48,9 +51,7 @@ RSpec.describe ECMBlockchain::CA do
 
         it 'should call the request method with the correct params' do
           expect(ECMBlockchain::CA).to receive(:request)
-            .with( :post, '/members', request ).and_return(
-                             OpenStruct.new(body: member_response.to_json)
-            )
+            .with( :post, '/members', request )
           ECMBlockchain::CA.create(request)
         end
       end
@@ -58,15 +59,17 @@ RSpec.describe ECMBlockchain::CA do
       context '422' do
         let(:error_response) do
           {
-            statusCode: 422,
-            name: 'UnprocessableEntityError',
-            message: 'error message'
-          }.to_json
+            code: 422,
+            body: {
+              statusCode: 422,
+              name: 'UnprocessableEntityError',
+              message: 'error message'
+            }
+          }
         end
 
         before do
-          stub_request(:post, ECMBlockchain.base_url + members_url)
-            .to_return(status: 422, body: error_response)
+          allow(ECMBlockchain::CA).to receive(:api_client_call).and_return(error_response)
         end
 
         it 'should return a UnprocessableEntityError' do
@@ -96,11 +99,15 @@ RSpec.describe ECMBlockchain::CA do
   end
 
   describe '#retrieve' do
+    before do
+      stub_request(:get, ECMBlockchain.base_url + members_url)
+    end
+
     let(:identity) { "user@org1.example.com:s3cr3t!" }
+
     context '200' do
       before do
-        stub_request(:get, ECMBlockchain.base_url + "/#{identity}#{members_url}")
-          .to_return(status: 200, body: member_response.to_json)
+        allow(ECMBlockchain::CA).to receive(:request).and_return(member_response)
       end
 
       it 'should retrieve a member' do
@@ -122,6 +129,10 @@ RSpec.describe ECMBlockchain::CA do
   end
 
   describe '#update' do
+    before do
+      stub_request(:patch, ECMBlockchain.base_url + "/#{identity}#{members_url}")
+    end
+
     let(:identity) { "user@org1.example.com:s3cr3t!" }
     let(:patch_request) do
       {
@@ -141,15 +152,12 @@ RSpec.describe ECMBlockchain::CA do
 
     context '200' do
       before do
-        stub_request(:patch, ECMBlockchain.base_url + "/#{identity}#{members_url}")
-          .to_return(status: 200, body: patch_member_response.to_json)
+        allow(ECMBlockchain::CA).to receive(:request).and_return(patch_member_response)
       end
 
       it 'should call the request method with the correct params' do
         expect(ECMBlockchain::CA).to receive(:request)
-          .with( :patch, "/#{identity}/members", patch_request ).and_return(
-            OpenStruct.new(body: patch_member_response.to_json)
-          )
+          .with( :patch, "/#{identity}/members", patch_request )
         ECMBlockchain::CA.update(identity, patch_request)
       end
       
@@ -166,10 +174,13 @@ RSpec.describe ECMBlockchain::CA do
 
   describe '#revoke' do
     let(:identity) { "user@org1.example.com:s3cr3t!" }
+    before do
+      stub_request(:delete, ECMBlockchain.base_url + "/#{identity}#{members_url}")
+    end
+
     context '204' do
       before do
-        stub_request(:delete, ECMBlockchain.base_url + "/#{identity}#{members_url}")
-          .to_return(status: 204, body: '{}')
+        allow(ECMBlockchain::CA).to receive(:request).and_return('{}')
       end
 
       it 'should revoke a member' do

@@ -9,7 +9,7 @@ module AssetHelper
         "title": "secure MP4",
         "base64": "data:@file/pdf;base64,JVBERi0xLjQKJdPr6eEKMSAwIG9iago8PC9D..."
       },
-      "data": {},
+      "content": {},
       "access": [
         {
           "uuid": "user@org1.example.com",
@@ -27,50 +27,50 @@ module AssetHelper
 
   def asset_response_data
     {
-      "title": "string",
-      "summary": "string",
-      "uuid": "string",
-      "txId": "string",
-      "groupId": "string",
-      "createdBy": "string",
-      "file": {
-        "title": "string",
-        "base64": "string",
-        "fileHash": "string",
-        "path": "string",
-        "fileValidated": true
+      title: "string",
+      summary: "string",
+      uuid: "string",
+      txId: "string",
+      groupId: "string",
+      createdBy: "string",
+      file: {
+        title: "string",
+        base64: "string",
+        fileHash: "string",
+        path: "string",
+        fileValidated: true
       },
-      "content": {},
-      "access": [
+      content: {},
+      access: [
         {
-          "uuid": "string",
-          "permissions": [
+          uuid: "string",
+          permissions: [
             {
-              "action": "string",
-              "name": "string",
-              "value": "string"
+              action: "string",
+              name: "string",
+              value: "string"
             }
           ]
         }
       ],
-      "createdAt": "2023-05-22T13:58:28.487Z",
-      "lastInteraction": {
-        "timestamp": "2023-05-22T13:58:28.487Z",
-        "fileModified": true,
-        "interactionFrom": "string"
+      createdAt: "2023-05-22T13:58:28.487Z",
+      lastInteraction: {
+        timestamp: "2023-05-22T13:58:28.487Z",
+        fileModified: true,
+        interactionFrom: "string"
       },
-      "events": [
+      events: [
         {
-          "txId": "string",
-          "value": {
-            "summary": "string",
-            "interaction": {
-              "timestamp": "2023-05-22T13:58:28.487Z",
-              "fileModified": true,
-              "interactionFrom": "string"
+          txId: "string",
+          value: {
+            summary: "string",
+            interaction: {
+              timestamp: "2023-05-22T13:58:28.487Z",
+              fileModified: true,
+              interactionFrom: "string"
             }
           },
-          "action": "string"
+          action: "string"
         }
       ]
     }
@@ -78,19 +78,19 @@ module AssetHelper
 
   def file_response_data
     {
-      "title": "string",
-      "base64": "string",
-      "fileHash": "string",
-      "path": "string",
-      "fileValidated": true
+      title: "string",
+      base64: "string",
+      fileHash: "string",
+      path: "string",
+      fileValidated: true
     }
   end
 
   def content_response_data
     {
-      "test_name": "new asset",
-      "test_value": "uberbverbveoyfubeou",
-      "test_access_date": "14-09-2009"
+      test_name: "new asset",
+      test_value: "uberbverbveoyfubeou",
+      test_access_date: "14-09-2009"
     }
   end
 end
