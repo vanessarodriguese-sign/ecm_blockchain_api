@@ -12,7 +12,7 @@ require_relative "ecm_blockchain_api/models/data_content_model"
 require_relative "ecm_blockchain_api/models/custom_attribute"
 require          "httparty"
 require          "logger"
-require          "pry"
+# require          "pry"
 require          "active_model"
 
 require  "ecm_blockchain_api/ca"
