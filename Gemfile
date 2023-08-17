@@ -9,6 +9,7 @@ gem "rake", "~> 13.0"
 gem 'activesupport', '~> 7.0', '>= 7.0.4.3'
 gem 'activemodel', '~> 7.0', '>= 7.0.4.3'
 gem "rspec", "~> 3.0"
+gem 'pry'
 
 gem "rubocop", "~> 1.7"
 gem 'schemacop', '>= 3.0.0'
